@@ -8,7 +8,13 @@
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "std_srvs/Empty.h"
 
+
+bool callback(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response)
+{
+  return true;
+}
 
 
 /**
@@ -51,6 +57,10 @@ int main(int argc, char **argv) {
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
+
+//  ros::ServiceServer service = nh.advertiseService("my_service", callback);
+  ros::ServiceServer service = n.advertiseService("my_service", callback);
+
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
   ros::Rate loop_rate(10);
