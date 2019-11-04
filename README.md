@@ -13,8 +13,9 @@ Simple starter ROS project with:
 git clone --recursive https://github.com/rjb3vp/beginner_tutorials.git
 cd <path to repository>
 mkdir catkin_ws
-cd catkin_ws
-catkin_make
+cd beginner_tutorials
+catkin_make install
+(OR just catkin_make if installing into existing catkin workspace)
 source ./devel/setup.bash
 
 Run program: 
@@ -24,7 +25,24 @@ rosrun beginner_tutorials listener
 rosrun beginner_tutorials talker
 
 
+OR:
+
+
+To use the launchfile, run:
+roslaunch beginner_tutorials example.launch
+
+
 ```
+
+## Services
+The random number service allows a client to set the range and mean that talker uses to generate random numbers.
+While talker is already running, one can run:
+
+rosservice call /talker/random_data <Mean> <Range>
+
+where mean and range are 64 bit integers.
+It will return an error if errors exist.
+
 
 ## Assumptions/Dependencies
 ```
