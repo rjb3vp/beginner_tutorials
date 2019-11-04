@@ -9,12 +9,30 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
+#include "beginner_tutorials/SetRandomRange.h"
+#include "beginner_tutorials/AddTwoInts.h"
 
 
-bool callback(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response)
+bool add(beginner_tutorials::AddTwoInts::Request  &req,
+         beginner_tutorials::AddTwoInts::Response &res)
 {
+  res.sum = req.a + req.b;
+  ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);
+  ROS_INFO("sending back response: [%ld]", (long int)res.sum);
   return true;
 }
+
+
+bool callback(beginner_tutorials::SetRandomRange::Request& request, beginner_tutorials::SetRandomRange::Response& response)
+{
+  response.error = true;
+  return true;
+}
+
+//bool callback(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response)
+//{
+//  return true;
+//}
 
 
 /**
@@ -59,7 +77,9 @@ int main(int argc, char **argv) {
    */
 
 //  ros::ServiceServer service = nh.advertiseService("my_service", callback);
-  ros::ServiceServer service = n.advertiseService("my_service", callback);
+  ros::ServiceServer service = n.advertiseService("random_data", callback);
+
+  ros::ServiceServer service2 = n.advertiseService("add_two_ints", add);
 
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 

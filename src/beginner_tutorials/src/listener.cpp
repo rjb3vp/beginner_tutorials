@@ -7,10 +7,19 @@
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "std_srvs/Empty.h"
+#include "beginner_tutorials/SetRandomRange.h"
+#include "beginner_tutorials/AddTwoInts.h"
 
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
+
+
+
+//beginner_tutorials::Foo foo;
+
+
 
 
 /**
@@ -24,6 +33,48 @@
 */
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
+
+
+
+  ros::NodeHandle n;
+  ros::ServiceClient client = n.serviceClient<beginner_tutorials::AddTwoInts>("add_two_ints");
+  beginner_tutorials::AddTwoInts srv;
+  srv.request.a = 1;
+  srv.request.b = 2;
+  if (client.call(srv))
+  {
+    ROS_INFO("Sum: %ld", (long int)srv.response.sum);
+  }
+  else
+  {
+    ROS_ERROR("Failed to call service add_two_ints");
+    //return 1;
+  }
+
+
+/*
+  ros::NodeHandle nh;
+  ros::ServiceClient client = nh.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
+
+  beginner_tutorials::SetRandomRange srv;
+  
+  srv.request.a = 0;
+  srv.request.b = 1;
+*/
+
+/*
+  ROS_INFO("Attempting to call service...");
+
+  if (client.call("random_data", srv))
+  {
+    ROS_INFO("Service call worked.");
+  } else {
+    ROS_INFO("Service call failed.");
+  }
+
+  ROS_INFO("Finished service call.");
+*/
+
 }
 
 int main(int argc, char **argv) {
