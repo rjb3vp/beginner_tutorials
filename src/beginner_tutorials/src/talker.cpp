@@ -13,12 +13,13 @@
 #include "beginner_tutorials/AddTwoInts.h"
 
 
-bool add(beginner_tutorials::AddTwoInts::Request  &req,
-         beginner_tutorials::AddTwoInts::Response &res)
+bool add(beginner_tutorials::SetRandomRange::Request  &req,
+         beginner_tutorials::SetRandomRange::Response &res)
 {
-  res.sum = req.a + req.b;
-  ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);
-  ROS_INFO("sending back response: [%ld]", (long int)res.sum);
+  res.error = true;
+  //res.sum = req.a + req.b;
+  //ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);
+  //ROS_INFO("sending back response: [%ld]", (long int)res.sum);
   return true;
 }
 
@@ -77,9 +78,9 @@ int main(int argc, char **argv) {
    */
 
 //  ros::ServiceServer service = nh.advertiseService("my_service", callback);
-  ros::ServiceServer service = n.advertiseService("random_data", callback);
+  ros::ServiceServer service = n.advertiseService("random_dataOLD", callback);
 
-  ros::ServiceServer service2 = n.advertiseService("add_two_ints", add);
+  ros::ServiceServer service2 = n.advertiseService("random_data", add);
 
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 

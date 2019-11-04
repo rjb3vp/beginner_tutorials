@@ -37,13 +37,16 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg) {
 
 
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<beginner_tutorials::AddTwoInts>("add_two_ints");
-  beginner_tutorials::AddTwoInts srv;
+  ros::ServiceClient client = n.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
+  beginner_tutorials::SetRandomRange srv;
   srv.request.a = 1;
   srv.request.b = 2;
+
   if (client.call(srv))
   {
-    ROS_INFO("Sum: %ld", (long int)srv.response.sum);
+    //ROS_INFO("Worked.");
+    ROS_INFO("Result: %d", (bool)srv.response.error);
+    //ROS_INFO("Sum: %ld", (long int)srv.response.sum);
   }
   else
   {
