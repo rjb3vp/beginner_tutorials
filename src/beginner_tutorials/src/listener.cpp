@@ -2,25 +2,30 @@
 * @brief the ROS node that listens (subscribes) to messages
 *
 * Modified from the example
-* Copyright 2019 ROS.org>
-*/
 
+Copyright 2019 Ryan Bates, ROS.org
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
 #include "beginner_tutorials/SetRandomRange.h"
 #include "beginner_tutorials/AddTwoInts.h"
-
-
-
-int count = -1;
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
 
 
+int count = -1;
 
-//beginner_tutorials::Foo foo;
+
 
 
 
@@ -40,47 +45,18 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_DEBUG_STREAM("Input is " << count);
 
   ros::NodeHandle n;
-  ros::ServiceClient client = n.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
+  ros::ServiceClient client =
+n.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
+
   beginner_tutorials::SetRandomRange srv;
   srv.request.mean = 0;
   srv.request.range = 2;
 
-  if (client.call(srv))
-  {
-    //ROS_INFO("Worked.");
+  if (client.call(srv)) {
     ROS_INFO("Errors detected?: %d", (bool)srv.response.error);
-    //ROS_INFO("Sum: %ld", (long int)srv.response.sum);
-  }
-  else
-  {
-    ROS_ERROR("Service call failed");
-    //return 1;
-  }
-
-
-/*
-  ros::NodeHandle nh;
-  ros::ServiceClient client = nh.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
-
-  beginner_tutorials::SetRandomRange srv;
-  
-  srv.request.a = 0;
-  srv.request.b = 1;
-*/
-
-/*
-  ROS_INFO("Attempting to call service...");
-
-  if (client.call("random_data", srv))
-  {
-    ROS_INFO("Service call worked.");
   } else {
-    ROS_INFO("Service call failed.");
+    ROS_ERROR("Service call failed");
   }
-
-  ROS_INFO("Finished service call.");
-*/
-
 }
 
 int main(int argc, char **argv) {
@@ -119,8 +95,6 @@ int main(int argc, char **argv) {
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
-
- 
 
   ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
 

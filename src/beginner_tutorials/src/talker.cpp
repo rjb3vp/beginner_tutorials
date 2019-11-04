@@ -2,11 +2,24 @@
 * @brief the ROS node that talks (publishes) messages
 *
 * Modified from the example
-* Copyright 2019 ROS.org>
+* Modified from the example
+
+Copyright 2019 Ryan Bates, ROS.org
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+1. Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+
+2. Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
+
+
+#include <math.h>
 #include <sstream>
 #include <cstdlib>
-#include <math.h>
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
@@ -17,43 +30,45 @@
 int randomRange = 100;
 int randomMean = 50;
 
-bool add(beginner_tutorials::SetRandomRange::Request  &req,
-         beginner_tutorials::SetRandomRange::Response &res)
-{
+
+
+/**
+
+* @brief Sets the range and mean for random number generation.
+
+* @param req incoming request object with params to copy
+
+* @param res outgoing result to show if errors occurred in this method
+
+* @return bool to show whether this function executed or not
+
+*/
+bool setParams(beginner_tutorials::SetRandomRange::Request  &req,
+         beginner_tutorials::SetRandomRange::Response &res) {
   if (req.mean == 0) {
-    ROS_WARN("Mean value of 0 is technically permitted, but probably a mistake.");
-    ROS_INFO_STREAM("Mean updated to " << req.mean << " with range of " << req.range);
+    ROS_WARN(
+"Mean value of 0 is technically permitted, but probably a mistake.");
+    ROS_INFO_STREAM("Mean updated to " << req.mean << " with range of "
+<< req.range);
+
     res.error = false;
     randomRange = req.range;
     randomMean = req.mean;
-  } 
-  else if (req.mean < 0) {
+  } else if (req.mean < 0) {
     ROS_ERROR_STREAM("Mean cannot be " << req.mean << " which is < 0");
     res.error = true;
-  }
-  else {
-    ROS_INFO_STREAM("Mean updated to " << req.mean << " with range of " << req.range);
+  } else {
+    ROS_INFO_STREAM("Mean updated to " << req.mean
+<< " with range of " << req.range);
     res.error = false;
     randomRange = req.range;
     randomMean = req.mean;
   }
-  //res.sum = req.a + req.b;
-  //ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);
-  //ROS_INFO("sending back response: [%ld]", (long int)res.sum);
+
   return true;
 }
 
 
-bool callback(beginner_tutorials::SetRandomRange::Request& request, beginner_tutorials::SetRandomRange::Response& response)
-{
-  response.error = true;
-  return true;
-}
-
-//bool callback(std_srvs::Empty::Request& request, std_srvs::Empty::Response& response)
-//{
-//  return true;
-//}
 
 
 /**
@@ -97,10 +112,8 @@ int main(int argc, char **argv) {
    * buffer up before throwing some away.
    */
 
-//  ros::ServiceServer service = nh.advertiseService("my_service", callback);
-  ros::ServiceServer service = n.advertiseService("random_dataOLD", callback);
 
-  ros::ServiceServer service2 = n.advertiseService("random_data", add);
+  ros::ServiceServer service = n.advertiseService("random_data", setParams);
 
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
@@ -121,7 +134,8 @@ int main(int argc, char **argv) {
 
 
     if (randomRange < -1) {
-      ROS_FATAL_STREAM("Impossible range of " << randomRange << " detected, failure imminent.");
+      ROS_FATAL_STREAM("Impossible range of " << randomRange
+<< " detected, failure imminent.");
     }
 
     int baseNumber = floor(randomRange / 2);
