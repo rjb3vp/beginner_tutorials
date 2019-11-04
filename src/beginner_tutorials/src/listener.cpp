@@ -13,6 +13,8 @@ Redistribution and use in source and binary forms, with or without modification,
 
 THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+#include <cstdlib>
+
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
@@ -24,7 +26,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 
 int count = -1;
-
+int startMean = 0;
 
 
 
@@ -42,14 +44,15 @@ int count = -1;
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
 
-  ROS_DEBUG_STREAM("Input is " << count);
+  // Example info stream checking input arguments
+  ROS_INFO_STREAM("Input is " << count);
 
   ros::NodeHandle n;
   ros::ServiceClient client =
 n.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
 
   beginner_tutorials::SetRandomRange srv;
-  srv.request.mean = 0;
+  srv.request.mean = startMean;
   srv.request.range = 2;
 
   if (client.call(srv)) {
@@ -71,6 +74,9 @@ int main(int argc, char **argv) {
    * part of the ROS system.
    */
   count = argc;
+  if (argc > 1) {
+    startMean = atoi(argv[1]);
+  }
   ros::init(argc, argv, "listener");
 
   /**

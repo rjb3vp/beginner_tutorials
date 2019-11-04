@@ -29,7 +29,7 @@ OR:
 
 
 To use the launchfile, run:
-roslaunch beginner_tutorials example.launch
+roslaunch beginner_tutorials example.launch <optional starting mean argument, as an int>
 
 
 ```
