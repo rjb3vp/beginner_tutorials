@@ -5,6 +5,8 @@
 * Copyright 2019 ROS.org>
 */
 #include <sstream>
+#include <cstdlib>
+#include <math.h>
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
@@ -12,11 +14,29 @@
 #include "beginner_tutorials/SetRandomRange.h"
 #include "beginner_tutorials/AddTwoInts.h"
 
+int randomRange = 100;
+int randomMean = 50;
 
 bool add(beginner_tutorials::SetRandomRange::Request  &req,
          beginner_tutorials::SetRandomRange::Response &res)
 {
-  res.error = true;
+  if (req.mean == 0) {
+    ROS_WARN("Mean value of 0 is technically permitted, but probably a mistake.");
+    ROS_INFO_STREAM("Mean updated to " << req.mean << " with range of " << req.range);
+    res.error = false;
+    randomRange = req.range;
+    randomMean = req.mean;
+  } 
+  else if (req.mean < 0) {
+    ROS_ERROR_STREAM("Mean cannot be " << req.mean << " which is < 0");
+    res.error = true;
+  }
+  else {
+    ROS_INFO_STREAM("Mean updated to " << req.mean << " with range of " << req.range);
+    res.error = false;
+    randomRange = req.range;
+    randomMean = req.mean;
+  }
   //res.sum = req.a + req.b;
   //ROS_INFO("request: x=%ld, y=%ld", (long int)req.a, (long int)req.b);
   //ROS_INFO("sending back response: [%ld]", (long int)res.sum);
@@ -98,9 +118,22 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "This needed to go through another page to work.  Count=" << count;
+
+
+    if (randomRange < -1) {
+      ROS_FATAL_STREAM("Impossible range of " << randomRange << " detected, failure imminent.");
+    }
+
+    int baseNumber = floor(randomRange / 2);
+
+    ROS_DEBUG_STREAM("Calculated base number is " << baseNumber);
+
+    int output = (rand() % randomRange) + (randomMean + floor(randomRange / 2));
+    ss << "Our random value is=" << output;
     msg.data = ss.str();
 
+
+    ROS_DEBUG("HELP");
     ROS_INFO("%s", msg.data.c_str());
 
     /**

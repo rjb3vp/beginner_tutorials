@@ -11,6 +11,9 @@
 #include "beginner_tutorials/SetRandomRange.h"
 #include "beginner_tutorials/AddTwoInts.h"
 
+
+
+int count = -1;
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
@@ -34,23 +37,23 @@
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
   ROS_INFO("I heard: [%s]", msg->data.c_str());
 
-
+  ROS_DEBUG_STREAM("Input is " << count);
 
   ros::NodeHandle n;
   ros::ServiceClient client = n.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
   beginner_tutorials::SetRandomRange srv;
-  srv.request.a = 1;
-  srv.request.b = 2;
+  srv.request.mean = 0;
+  srv.request.range = 2;
 
   if (client.call(srv))
   {
     //ROS_INFO("Worked.");
-    ROS_INFO("Result: %d", (bool)srv.response.error);
+    ROS_INFO("Errors detected?: %d", (bool)srv.response.error);
     //ROS_INFO("Sum: %ld", (long int)srv.response.sum);
   }
   else
   {
-    ROS_ERROR("Failed to call service add_two_ints");
+    ROS_ERROR("Service call failed");
     //return 1;
   }
 
@@ -91,6 +94,7 @@ int main(int argc, char **argv) {
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
+  count = argc;
   ros::init(argc, argv, "listener");
 
   /**
@@ -115,6 +119,9 @@ int main(int argc, char **argv) {
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
+
+ 
+
   ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
 
   /**
