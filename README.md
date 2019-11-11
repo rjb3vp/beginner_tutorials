@@ -25,20 +25,44 @@ rosrun beginner_tutorials listener
 rosrun beginner_tutorials talker
 
 
-OR:
+## Run From launchfile (optional rosbag)
 
 
 To use the launchfile, run:
-roslaunch beginner_tutorials example.launch <optional starting mean argument, as an int>
+roslaunch beginner_tutorials example.launch <optional starting mean argument startMean, as an int>
+<optional use_rosbag flag, a boolean>
 
+Example for a starting mean of 3 with no rosbag usage:
+roslaunch beginner_tutorials example.launch startMean:=3 use_rosbag:=0
 
 ```
 
-## Testing
+## Bag File Inspection
+After logging to a bag file, execute:
+
+rosbag info <bag file name>
+
+You will see a printout showing all topics subscribed with rosbag (all, if through launchfile)
+
+
+## Bag File Playback
+
+After logging to a bag file, execute:
+
+roscore
+rosrun beginner_tutorials listener
+rosbag play <bag file name>
+
+You should see similar operation to a full run, with the bag file recording replacing the talker node.
+
+
+## Testing (rostest)
 After installing, execute:
 
 roscore
 catkin_make run_tests
+
+This should automatically make and run the gtest suite.
 
 ## TF Inspection
 After installation, execute:
