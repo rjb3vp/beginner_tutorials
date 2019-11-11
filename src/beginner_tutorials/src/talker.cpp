@@ -18,11 +18,10 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 
 #include <math.h>
+#include <tf/transform_broadcaster.h>
 #include <sstream>
 #include <cstdlib>
-
 #include "ros/ros.h"
-#include <tf/transform_broadcaster.h>
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
 #include "beginner_tutorials/SetRandomRange.h"
@@ -76,8 +75,6 @@ bool setParams(beginner_tutorials::SetRandomRange::Request  &req,
  * This tutorial demonstrates simple sending of messages over the ROS system.
  */
 int main(int argc, char **argv) {
-
-
   /**
    * The ros::init() function needs to see argc and argv so that it can perform
    * any ROS arguments and name remapping that were provided at the command line.
@@ -164,22 +161,19 @@ int main(int argc, char **argv) {
     // Adapted from
     // wiki.ros.org/tf/Tutorials/Writing%20a%20tf%20broadcaster%20%28C%2B%2B%29
     tf::TransformBroadcaster br;
-
     tf::Transform transform;
-    // Handle translation here
-    transform.setOrigin( tf::Vector3(0.0 + output, 20.0, 0.0) );
+    // Handle translation here first
+    transform.setOrigin(tf::Vector3(0.0 + output, 20.0, 0.0));
 
     // Handle rotation here
     tf::Quaternion q;
     q.setRPY(0, 0, 45);
 
     // trivial change to see dynamics
-
     transform.setRotation(q);
 
-    //tf::StampedTransform stampedTrans = tf::StampedTransform(transform, ros::Time::now(), "world", "talk");
-    //stampedTrans.translation.z = transform.translation.z + baseNumber;
-    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
+    br.sendTransform(tf::StampedTransform(transform, ros::Time::now(),
+"world", "talk"));
 
 
 
