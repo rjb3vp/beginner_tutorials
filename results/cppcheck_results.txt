@@ -1,6 +1,7 @@
-$ cppcheck *.cpp
+Checking talker_test.cpp...
+
 Checking listener.cpp...
-1/2 files checked 43% done
+1/2 files checked 41% done
 Checking talker.cpp...
 2/2 files checked 100% done
 
