@@ -25,6 +25,13 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 add_rostest_gtest(talker_test test/talker_test.launch test/talker_test.cpp)# src/listener.cpp src/talker.cpp)
 
+##This is an alternate way to run the test
+#catkin_add_gtest(talker_test test/talker_test.cpp)
+
+
+target_link_libraries(talker_test ${catkin_LIBRARIES})
+
+
 add_executable(talker src/talker.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
 add_dependencies(talker beginner_tutorials_generate_messages_cpp ${catkin_EXPORTED_TARGETS})
