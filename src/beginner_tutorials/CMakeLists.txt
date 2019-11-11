@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(beginner_tutorials)
 
+
+
+
 ## Find catkin and any catkin packages
 find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs std_srvs genmsg message_generation)
 
@@ -17,6 +20,8 @@ catkin_package(CATKIN_DEPENDS message_runtime)
 
 ## Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS})
+
+catkin_add_gtest(talkerTest test/talker_test.cpp)
 
 add_executable(talker src/talker.cpp)
 target_link_libraries(talker ${catkin_LIBRARIES})
