@@ -1,5 +1,6 @@
 <launch>
   <arg name="startMean" default="0"/>
+  <arg name="use_rosbag" default="true"/>
 
   <group ns="talker">
     <node pkg="beginner_tutorials" name="talker" type="talker"/>
@@ -10,4 +11,5 @@
   </group>
 
 
+  <node pkg="rosbag" type="record" name="rosbag" args="record -a myBag"/>
 </launch>

@@ -5,7 +5,7 @@ project(beginner_tutorials)
 
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs std_srvs genmsg message_generation tf rostest)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs std_srvs genmsg message_generation tf rostest rosbag)
 
 ## Declare ROS messages and services
 add_message_files(FILES Num.msg)
@@ -16,7 +16,7 @@ generate_messages(DEPENDENCIES std_msgs std_srvs)
 
 
 ## Declare a catkin package
-catkin_package(CATKIN_DEPENDS message_runtime)
+catkin_package(CATKIN_DEPENDS message_runtime rosbag)
 
 ## Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS})
