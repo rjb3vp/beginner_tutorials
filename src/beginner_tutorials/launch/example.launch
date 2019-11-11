@@ -10,6 +10,6 @@
     <node pkg="beginner_tutorials" name="listener" type="listener"/>
   </group>
 
+  <node pkg="rosbag" type="record" name="rosbag" args="record -a myBag" if="$(arg use_rosbag)"/>
 
-  <node pkg="rosbag" type="record" name="rosbag" args="record -a myBag"/>
 </launch>
