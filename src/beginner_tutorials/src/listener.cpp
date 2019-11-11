@@ -42,7 +42,7 @@ int startMean = 0;
 
 */
 void chatterCallback(const std_msgs::String::ConstPtr& msg) {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  ROS_INFO_STREAM("I heard:" << msg->data.c_str());
 
   // Example info stream checking input arguments
   ROS_INFO_STREAM("Input is " << count);
@@ -56,7 +56,7 @@ n.serviceClient<beginner_tutorials::SetRandomRange>("random_data");
   srv.request.range = 2;
 
   if (client.call(srv)) {
-    ROS_INFO("Errors detected?: %d", (bool)srv.response.error);
+    ROS_INFO_STREAM("Errors detected?:" << (bool)srv.response.error);
   } else {
     ROS_ERROR("Service call failed");
   }
