@@ -34,6 +34,24 @@ roslaunch beginner_tutorials example.launch <optional starting mean argument, as
 
 ```
 
+## Testing
+After installing, execute:
+
+roscore
+catkin_make run_tests
+
+## TF Inspection
+After installation, execute:
+
+Run program: 
+
+roscore
+rosrun beginner_tutorials talker
+
+rosrun tf view_frames
+
+Then view the resultant pdf with your preferred reader.
+
 ## Services
 The random number service allows a client to set the range and mean that talker uses to generate random numbers.
 While talker is already running, one can run:
