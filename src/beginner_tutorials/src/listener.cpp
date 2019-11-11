@@ -19,7 +19,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
 #include "beginner_tutorials/SetRandomRange.h"
-#include "beginner_tutorials/AddTwoInts.h"
+
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */

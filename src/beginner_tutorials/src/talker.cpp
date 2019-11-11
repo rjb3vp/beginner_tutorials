@@ -25,7 +25,7 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 #include "std_msgs/String.h"
 #include "std_srvs/Empty.h"
 #include "beginner_tutorials/SetRandomRange.h"
-#include "beginner_tutorials/AddTwoInts.h"
+
 
 int randomRange = 100;
 int randomMean = 50;
